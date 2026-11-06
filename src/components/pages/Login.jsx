@@ -10,6 +10,7 @@ import {
   InputAdornment,
   Container
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // Material UI Icons for show/hide password
 import Visibility from '@mui/icons-material/Visibility';
@@ -21,6 +22,7 @@ export default function Login() {
     password: '',
   });
 
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -39,7 +41,7 @@ export default function Login() {
     event.preventDefault();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
       if (!handleValidation()) {
         e.preventDefault();
@@ -47,8 +49,23 @@ export default function Login() {
         return;
       }
       e.preventDefault();
-      // Handle login submission logic here
-      console.log('Login credentials:', formData);
+      const { email, password } = formData;
+
+      const result = await fetch('http://localhost:8000/users/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await result.json();
+      if (data.access_token) {
+        localStorage.setItem('token', data.access_token);
+        navigate('/dashboard');
+      } 
+      console.log(data);
+
 
   };
 

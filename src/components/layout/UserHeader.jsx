@@ -61,7 +61,7 @@ export default function UserHeader() {
     <Box sx={{ overflow: 'auto' }}>
       <Toolbar sx={{ display: 'flex', alignItems: 'center', px: 2 }}>
         <Typography variant="h6" fontWeight="bold" color="primary">
-          Navigation
+          My To-Do List
         </Typography>
       </Toolbar>
       <Divider />
